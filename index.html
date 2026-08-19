@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>مزيكا توتا</title>
+    <meta name="description" content="مزيكا توتا - موقع موسيقى عربي بطابع ليلي وفخم" />
+    <style>
+      :root {
+        --bg: #0f0b1e;
+        --bg2: #1a1033;
+        --card: rgba(255,255,255,0.06);
+        --card-border: rgba(255,255,255,0.12);
+        --text: #f7f2ff;
+        --muted: #c8b8e8;
+        --accent: #b56cff;
+        --accent2: #ff6fb1;
+        --shadow: 0 20px 60px rgba(0,0,0,0.35);
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: radial-gradient(circle at top, #2a1650 0%, var(--bg) 45%, #080510 100%);
+        color: var(--text);
+        min-height: 100vh;
+      }
+      .wrap {
+        width: min(1100px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 24px 0 48px;
+      }
+      .hero {
+        background: linear-gradient(135deg, rgba(181,108,255,0.18), rgba(255,111,177,0.12));
+        border: 1px solid var(--card-border);
+        border-radius: 28px;
+        padding: 28px;
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(14px);
+      }
+      .brand {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .logo-badge {
+        width: 58px;
+        height: 58px;
+        border-radius: 18px;
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        box-shadow: 0 10px 30px rgba(181,108,255,0.35);
+        display: grid;
+        place-items: center;
+        font-size: 26px;
+      }
+      h1 { margin: 0; font-size: clamp(28px, 4vw, 44px); }
+      .sub { margin: 8px 0 0; color: var(--muted); line-height: 1.8; }
+      .nav {
+        margin-top: 22px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .nav a {
+        color: var(--text);
+        text-decoration: none;
+        padding: 12px 16px;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.08);
+      }
+      .nav a:hover { background: rgba(255,255,255,0.12); }
+      .section {
+        margin-top: 24px;
+        background: var(--card);
+        border: 1px solid var(--card-border);
+        border-radius: 24px;
+        padding: 22px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+        margin-top: 16px;
+      }
+      .card {
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 20px;
+        padding: 18px;
+      }
+      .card h3 { margin: 0 0 8px; }
+      .card p { margin: 0; color: var(--muted); line-height: 1.8; }
+      .btn {
+        display: inline-block;
+        margin-top: 12px;
+        padding: 11px 16px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      footer {
+        text-align: center;
+        color: var(--muted);
+        padding: 24px 0 8px;
+      }
+      @media (max-width: 600px) {
+        .hero, .section { padding: 18px; border-radius: 20px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="hero">
+        <div class="brand">
+          <div class="logo">
+            <div class="logo-badge">♪</div>
+            <div>
+              <h1>مزيكا توتا</h1>
+              <p class="sub">منصة موسيقى عربية بطابع ليلي وفخم، تعرض الأغاني، المشغل، ولوحة الإدارة.</p>
+            </div>
+          </div>
+          <a class="btn" href="/songs">ابدأ التصفح</a>
+        </div>
+
+        <nav class="nav" aria-label="التنقل الرئيسي">
+          <a href="/">الرئيسية</a>
+          <a href="/songs">الأغاني</a>
+          <a href="/player">المشغل</a>
+          <a href="/admin">الإدارة</a>
+        </nav>
+      </header>
+
+      <section class="section">
+        <h2>مرحبا بك</h2>
+        <p class="sub">هنا الصفحة الرئيسية للموقع. بعد رفع هذا الملف، اجعل الملف باسم <b>index.html</b> داخل جذر المشروع ثم ارفعه إلى GitHub.</p>
+
+        <div class="grid">
+          <div class="card">
+            <h3>الأغاني</h3>
+            <p>صفحة عرض كل الأغاني مع الأغلفة وعدد المشاهدات.</p>
+            <a class="btn" href="/songs">فتح الصفحة</a>
+          </div>
+          <div class="card">
+            <h3>المشغل</h3>
+            <p>صفحة تشغيل الصوت مع التحكم الكامل.</p>
+            <a class="btn" href="/player">فتح الصفحة</a>
+          </div>
+          <div class="card">
+            <h3>الإدارة</h3>
+            <p>لوحة رفع وتعديل الأغاني عبر Supabase Auth.</p>
+            <a class="btn" href="/admin">فتح الصفحة</a>
+          </div>
+        </div>
+      </section>
+
+      <footer>© مزيكا توتا</footer>
+    </div>
+  <script>window.parent.postMessage({ action: "ready" }, "*"); 
+ 
+window.console = new Proxy(console, {
+  get(target, prop) {
+    if (['log', 'warn', 'error'].includes(prop)) {
+      return new Proxy(target[prop], {
+        apply(fn, thisArg, args) {
+          fn.apply(thisArg, args);
+          window.parent.postMessage({ action: 'console', 
+            type: prop, 
+            args: args.map((arg) => {
+              try {
+                return JSON.stringify(arg).replace(/^["']|["']$/g, '');
+              } catch (e) {
+                return arg;
+              }
+            }) 
+          }, '*');
+        }
+      });
+    }
+    return target[prop];
+  }
+});
+</script></body>
+</html>
