@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>مزيكا توتا - الإدارة</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-white min-h-screen">
+  <div class="max-w-3xl mx-auto p-6">
+    <div class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-2xl shadow-fuchsia-500/10">
+      <h1 class="text-3xl font-bold text-fuchsia-400 mb-2">لوحة الإدارة</h1>
+      <p class="text-slate-300 mb-6">هنا يتم الدخول وإدارة الأغاني والبيانات.</p>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <div class="bg-black/20 rounded-2xl p-4 border border-white/10">
+          <h2 class="font-semibold mb-2">تسجيل الدخول</h2>
+          <input class="w-full mb-3 p-3 rounded-xl bg-slate-900 border border-white/10 outline-none" placeholder="البريد الإلكتروني" />
+          <input class="w-full mb-3 p-3 rounded-xl bg-slate-900 border border-white/10 outline-none" placeholder="كلمة المرور" type="password" />
+          <button class="w-full bg-fuchsia-600 hover:bg-fuchsia-500 transition rounded-xl py-3 font-semibold">دخول</button>
+        </div>
+
+        <div class="bg-black/20 rounded-2xl p-4 border border-white/10">
+          <h2 class="font-semibold mb-2">إضافة أغنية</h2>
+          <input class="w-full mb-3 p-3 rounded-xl bg-slate-900 border border-white/10 outline-none" placeholder="عنوان الأغنية" />
+          <input class="w-full mb-3 p-3 rounded-xl bg-slate-900 border border-white/10 outline-none" placeholder="اسم الفنان" />
+          <input class="w-full mb-3 p-3 rounded-xl bg-slate-900 border border-white/10 outline-none" placeholder="رابط الغلاف" />
+          <input class="w-full mb-3 p-3 rounded-xl bg-slate-900 border border-white/10 outline-none" placeholder="رابط الصوت" />
+          <button class="w-full bg-pink-600 hover:bg-pink-500 transition rounded-xl py-3 font-semibold">حفظ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<script>window.parent.postMessage({ action: "ready" }, "*"); 
+ 
+window.console = new Proxy(console, {
+  get(target, prop) {
+    if (['log', 'warn', 'error'].includes(prop)) {
+      return new Proxy(target[prop], {
+        apply(fn, thisArg, args) {
+          fn.apply(thisArg, args);
+          window.parent.postMessage({ action: 'console', 
+            type: prop, 
+            args: args.map((arg) => {
+              try {
+                return JSON.stringify(arg).replace(/^["']|["']$/g, '');
+              } catch (e) {
+                return arg;
+              }
+            }) 
+          }, '*');
+        }
+      });
+    }
+    return target[prop];
+  }
+});
+</script></body>
+</html>
