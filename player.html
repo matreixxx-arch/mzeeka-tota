@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>مزيكا توتا - المشغل</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#0b0614] text-white min-h-screen">
+  <main class="max-w-4xl mx-auto px-4 py-10">
+    <section class="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-fuchsia-900/20 backdrop-blur">
+      <div class="flex flex-col gap-6 md:flex-row md:items-center">
+        <div class="w-48 h-48 rounded-3xl overflow-hidden bg-gradient-to-br from-fuchsia-500 to-purple-700 mx-auto md:mx-0 flex items-center justify-center text-6xl">
+          🎵
+        </div>
+        <div class="flex-1 text-center md:text-right">
+          <p class="text-sm text-fuchsia-300 mb-2">المشغل</p>
+          <h1 id="songTitle" class="text-3xl md:text-4xl font-bold mb-2">اسم الأغنية</h1>
+          <p id="songArtist" class="text-lg text-white/70 mb-6">اسم الفنان</p>
+
+          <audio id="audioPlayer" controls class="w-full">
+            <source src="" type="audio/mpeg" />
+            المتصفح لا يدعم تشغيل الصوت.
+          </audio>
+
+          <div class="mt-6 flex flex-wrap gap-3 justify-center md:justify-start">
+            <button class="px-5 py-3 rounded-2xl bg-fuchsia-600 hover:bg-fuchsia-500 transition">تشغيل</button>
+            <button class="px-5 py-3 rounded-2xl bg-white/10 hover:bg-white/15 transition">تحميل</button>
+            <a href="index.html" class="px-5 py-3 rounded-2xl bg-white/10 hover:bg-white/15 transition">العودة للرئيسية</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+<script>window.parent.postMessage({ action: "ready" }, "*"); 
+ 
+window.console = new Proxy(console, {
+  get(target, prop) {
+    if (['log', 'warn', 'error'].includes(prop)) {
+      return new Proxy(target[prop], {
+        apply(fn, thisArg, args) {
+          fn.apply(thisArg, args);
+          window.parent.postMessage({ action: 'console', 
+            type: prop, 
+            args: args.map((arg) => {
+              try {
+                return JSON.stringify(arg).replace(/^["']|["']$/g, '');
+              } catch (e) {
+                return arg;
+              }
+            }) 
+          }, '*');
+        }
+      });
+    }
+    return target[prop];
+  }
+});
+</script></body>
+</html>
