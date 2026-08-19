@@ -1,0 +1,98 @@
+-- Supabase schema for مزيكا توتا
+-- Run this in Supabase SQL editor
+
+create extension if not exists pgcrypto;
+
+-- Songs table
+create table if not exists public.songs (
+  id uuid primary key default gen_random_uuid(),
+  title text not null,
+  artist text not null,
+  cover text not null,
+  audio text not null,
+  plays bigint not null default 0,
+  downloads bigint not null default 0,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+-- Song metrics table
+create table if not exists public.song_metrics (
+  id uuid primary key default gen_random_uuid(),
+  song_id uuid not null references public.songs(id) on delete cascade,
+  metric_type text not null,
+  created_at timestamptz not null default now()
+);
+
+-- Helpful indexes
+create index if not exists songs_created_at_idx on public.songs (created_at desc);
+create index if not exists song_metrics_song_id_idx on public.song_metrics (song_id);
+create index if not exists song_metrics_created_at_idx on public.song_metrics (created_at desc);
+
+-- Updated at trigger
+create or replace function public.set_updated_at()
+returns trigger
+language plpgsql
+as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$;
+
+drop trigger if exists set_songs_updated_at on public.songs;
+create trigger set_songs_updated_at
+before update on public.songs
+for each row
+execute function public.set_updated_at();
+
+-- Buckets
+insert into storage.buckets (id, name, public)
+values ('song-covers', 'song-covers', true)
+on conflict (id) do nothing;
+
+insert into storage.buckets (id, name, public)
+values ('song-audios', 'song-audios', true)
+on conflict (id) do nothing;
+
+-- Storage policies for public read
+create policy "Public read song covers"
+on storage.objects for select
+to public
+using (bucket_id = 'song-covers');
+
+create policy "Public read song audios"
+on storage.objects for select
+to public
+using (bucket_id = 'song-audios');
+
+-- Optional authenticated write access
+create policy "Authenticated upload song covers"
+on storage.objects for insert
+to authenticated
+with check (bucket_id = 'song-covers');
+
+create policy "Authenticated upload song audios"
+on storage.objects for insert
+to authenticated
+with check (bucket_id = 'song-audios');
+
+create policy "Authenticated update song covers"
+on storage.objects for update
+to authenticated
+using (bucket_id = 'song-covers');
+
+create policy "Authenticated update song audios"
+on storage.objects for update
+to authenticated
+using (bucket_id = 'song-audios');
+
+create policy "Authenticated delete song covers"
+on storage.objects for delete
+to authenticated
+using (bucket_id = 'song-covers');
+
+create policy "Authenticated delete song audios"
+on storage.objects for delete
+to authenticated
+using (bucket_id = 'song-audios');
