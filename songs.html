@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>مزيكا توتا - الأغاني</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background: radial-gradient(circle at top, #2a0f3f, #0b0711 55%); }
+  </style>
+</head>
+<body class="min-h-screen text-white font-sans">
+  <header class="border-b border-white/10 bg-black/30 backdrop-blur sticky top-0 z-10">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+      <div>
+        <h1 class="text-2xl font-bold text-fuchsia-300">مزيكا توتا</h1>
+        <p class="text-sm text-white/60">قائمة الأغاني</p>
+      </div>
+      <nav class="flex gap-3 text-sm">
+        <a href="/" class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20">الرئيسية</a>
+        <a href="/songs" class="px-3 py-2 rounded-xl bg-fuchsia-500/30 text-fuchsia-200">الأغاني</a>
+        <a href="/player" class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20">المشغل</a>
+        <a href="/admin" class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20">الإدارة</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-10">
+    <section class="mb-8">
+      <h2 class="text-3xl font-bold mb-2">كل الأغاني</h2>
+      <p class="text-white/70">هنا تظهر الأغاني المضافة من قاعدة البيانات.</p>
+    </section>
+
+    <section class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <article class="bg-white/5 border border-white/10 rounded-3xl overflow-hidden">
+        <div class="h-48 bg-gradient-to-br from-fuchsia-600 to-purple-900 flex items-center justify-center text-6xl">🎵</div>
+        <div class="p-4">
+          <h3 class="text-xl font-bold mb-1">اسم الأغنية</h3>
+          <p class="text-white/60 text-sm mb-4">اسم الفنان</p>
+          <div class="flex gap-2">
+            <a href="/player" class="flex-1 text-center px-4 py-2 rounded-xl bg-fuchsia-500 hover:bg-fuchsia-600">تشغيل</a>
+            <button class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20">تحميل</button>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+<script>window.parent.postMessage({ action: "ready" }, "*"); 
+ 
+window.console = new Proxy(console, {
+  get(target, prop) {
+    if (['log', 'warn', 'error'].includes(prop)) {
+      return new Proxy(target[prop], {
+        apply(fn, thisArg, args) {
+          fn.apply(thisArg, args);
+          window.parent.postMessage({ action: 'console', 
+            type: prop, 
+            args: args.map((arg) => {
+              try {
+                return JSON.stringify(arg).replace(/^["']|["']$/g, '');
+              } catch (e) {
+                return arg;
+              }
+            }) 
+          }, '*');
+        }
+      });
+    }
+    return target[prop];
+  }
+});
+</script></body>
+</html>
